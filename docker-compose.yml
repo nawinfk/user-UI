@@ -1,0 +1,13 @@
+version: '3.8'
+services:
+  backend:
+    build: ./backend
+    ports:
+      - "5000:5000"
+    environment:
+      - DB_HOST=host.docker.internal # Setup for local DB connectivity
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:80" # Map localhost:3000 to Nginx port 80
+      
