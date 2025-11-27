@@ -177,6 +177,12 @@ frontend:
     tag: "v1"
   replicas: 1
   service:
-    type: LoadBalancer
+    type: ClusterIP
     port: 80
   
+ingress:
+  enabled: true
+  annotations:
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+      
