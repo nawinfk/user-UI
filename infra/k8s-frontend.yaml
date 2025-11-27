@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: naveen-frontend
+  namespace: naveen-user-ui
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: naveen-frontend
+  template:
+    metadata:
+      labels:
+        app: naveen-frontend
+    spec:
+      containers:
+        - name: naveen-frontend
+          image: 165919939557.dkr.ecr.us-east-1.amazonaws.com/naveen-frontend:v1
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 80
+          # If your frontend needs backend URL as env, add something like:
+          # env:
+          #   - name: VITE_API_BASE_URL
+          #     value: "http://naveen-backend.naveen-user-ui.svc.cluster.local:5000"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: naveen-frontend
+  namespace: naveen-user-ui
+spec:
+  type: LoadBalancer
+  selector:
+    app: naveen-frontend
+  ports:
+    - port: 80
+      targetPort: 80

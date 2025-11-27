@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: naveen-backend
+  namespace: naveen-user-ui
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: naveen-backend
+  template:
+    metadata:
+      labels:
+        app: naveen-backend
+    spec:
+      containers:
+        - name: naveen-backend
+          image: 165919939557.dkr.ecr.us-east-1.amazonaws.com/naveen-backend:v1
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 5000
+          env:
+            # add your backend env vars here if needed
+            - name: NODE_ENV
+              value: "production"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: naveen-backend
+  namespace: naveen-user-ui
+spec:
+  type: ClusterIP
+  selector:
+    app: naveen-backend
+  ports:
+    - port: 5000
+      targetPort: 5000
